@@ -1,0 +1,8 @@
+- name: stop ansible
+  hosts: workers
+  become: true
+  tasks:
+    - name: stop ansible if exists
+      apt:
+        name: nginx
+        state: absent

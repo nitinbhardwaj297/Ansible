@@ -1,0 +1,11 @@
+- name: install diff packages with help of variables
+  hosts: workers
+  become: true
+  vars_files:
+    - vars.yaml
+  tasks: 
+    - name: install diff packages 
+      apt:
+        name: "{{item}}"        
+        state: present
+      loop: "{{packages}}"

@@ -1,0 +1,3 @@
+- name: installing docker with handler installing docker-compose 
+  hosts: workers
+  become: true
