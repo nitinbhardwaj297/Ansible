@@ -1,0 +1,5 @@
+- name: nginx webservers
+  hosts: workers
+  become: true
+  roles:
+    - webserver
