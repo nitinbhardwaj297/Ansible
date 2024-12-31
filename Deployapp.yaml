@@ -1,0 +1,43 @@
+- name: deploying application
+  hosts: workers
+  become: true
+  tasks: 
+    - name: git install
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: git clone project
+      git:
+        repo: "https://github.com/nitinbhardwaj297/pythonapp.git"
+        dest: /home/ubuntu/pythonapp
+        version: main
+
+    - name: install python and pip 
+      apt:
+        name: python3
+        name: python3-pip
+        name: python3-venv
+        state: present
+    
+    - name: Starting virtual environment
+      command: python3 -m venv /home/ubuntu/pythonapp/venv
+
+    - name: Activate virtual environment
+      shell: |
+        source /home/ubuntu/pythonapp/venv/bin/activate
+        pip install -r /home/ubuntu/pythonapp/requirements.txt
+      args:
+        executable: /bin/bash
+
+    - name: Run the application
+      shell: |
+        source /home/ubuntu/pythonapp/venv/bin/activate
+        nohup python /home/ubuntu/pythonapp/app.py &
+      args:
+        executable: /bin/bash
+
+
+
+
